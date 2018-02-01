@@ -7,8 +7,10 @@ class App extends React.Component {
       videos: window.exampleVideoData,
       text: ''
     };
+    this.searchYoutube = window.searchYouTube;
     this.handleClick = this.handleClick.bind(this);
     this.handleText = this.handleText.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleClick(...args) {
@@ -17,15 +19,27 @@ class App extends React.Component {
 
   handleText(event) {
     this.setState({ text:event.target.value});
-    console.log(this.state.text);
   }
+  handleSubmit(event) {
+    this.searchYoutube(this.state.text, this.receiveData.bind(this));
+    
+    //get data from above function 
+    //set data.options to this.state.videos  
+  }
+
+  receiveData(data) {
+    let firstVideo = data.shift();
+    this.setState({videos: data});
+    this.setState({video: firstVideo});
+  }
+  
 
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><Search myText = {this.handleText}/></div>
+            <div><Search myText = {this.handleText} mySubmit = {this.handleSubmit}/></div>
           </div>
         </nav>
         <div className="row">
